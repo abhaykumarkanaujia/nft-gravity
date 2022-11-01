@@ -16,25 +16,7 @@ const Socials = styled.div`
   display: flex;
   font-size: 1.5rem;
   gap: 1.5rem;
-  @media ${Devices.Tablet} {
-    align-items:center;
-    gap: 5rem;
-  }
-
-  @media ${Devices.MobileL} {
-    align-items:center;
-    gap: 5rem;
-  }
-
-  @media ${Devices.MobileM} {
-    align-items:center;
-    gap: 5rem;
-  }
-
-  @media ${Devices.MobileS} {
-    align-items:center;
-    gap: 5rem;
-  }
+  
 
 `;
 const CopyRight = styled.small`

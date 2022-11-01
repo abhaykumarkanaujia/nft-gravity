@@ -42,24 +42,14 @@ const LogoText = styled.a`
   font-weight: 800;
   color: ${Colors.White};
   display:none;
-  @media ${Devices.MobileL}{
-    display:flex;
-  }
-  @media ${Devices.MobileM}{
-    display:flex;
-  }
+  
   
 `;
 
 const Logo = styled.img`
   width: 75px;
   padding-right: 1rem;
-  @media ${Devices.MobileL}{
-    display:none;
-  }
-  @media ${Devices.MobileM}{
-    display:none;
-  }
+  
 `;
 
 const Nav = styled.nav`
