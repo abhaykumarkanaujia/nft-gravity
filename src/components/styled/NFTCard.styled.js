@@ -1,8 +1,17 @@
 import styled from "styled-components";
-import Image from "next/image";
+import Button from "../styled/Button.styled";
+//import Image from "next/image";
 import { Colors } from "../Theme";
+import { ethers } from 'ethers';
 import { BsHeart } from "react-icons/bs";
-
+import { goenft, goemarket, goeresell, goenftcol, goerpc } from '../../../engine/configuration';
+import Web3Modal from "web3modal";
+import NFTCollection from '../../../engine/NFTCollection.json'
+import Resell from '../../../engine/Resell.json';
+import Market from '../../../engine/Market.json';
+import NFT from '../../../engine/NFT.json';
+import { useState } from "react";
+import ModalComponent from "./Modal.styled";
 const NFTCardEl = styled.article`
   position: relative;
   display: flex;
@@ -105,43 +114,53 @@ const Bar2 = styled(Bar1)`
   z-index: 0;
 `;
 
-export default function NFTCard({ item }) {
-  const {
-    Id,
-    Badge,
-    ImageUrl,
-    Edition,
-    Stock,
-    Title,
-    Price,
-    Avatar,
-    Author,
-    Likes,
-  } = item;
+const Image = styled.img`
+  width: 260px;
+  height: 250px;
+`;
+
+export default function NFTCard(params) {
+  
+
+  const [trigger, setTrigger] = useState(false);
+
+
+  async function buyNewGoe(nft) {
+    // const web3Modal = new Web3Modal()
+    
+    // const connection = await web3Modal.connect()
+    // const provider = new ethers.providers.Web3Provider(connection)
+    // const signer = provider.getSigner()
+    // const contract = new ethers.Contract(goemarket, Market, signer)
+    // const price = ethers.utils.parseUnits(nft.price.toString(), 'ether')
+    // const transaction = await contract.n2DMarketSale(goenft, nft.itemId, {
+    //   value: price
+    // })
+    // await transaction.wait()
+   // loadGoeSaleNFTs()
+  }
   return (
     <NFTCardEl>
       <Card>
-        <BadgeEl>{Badge}</BadgeEl>
+        {/* <BadgeEl>{Badge}</BadgeEl> */}
         <ItemImage>
-          <Image src={ImageUrl} width="1024" height="1025" />
+          <Image src={params.item.image} width="1024" height="1025" />
         </ItemImage>
         <InfoSection>
           <TSection>
             <EditionEl>
-              Minted via Proton Mint
+              Minted via MinterBox
             </EditionEl>
-            <StockEl>{Stock} for sale</StockEl>
+            {/* <StockEl>{Stock} for sale</StockEl> */}
           </TSection>
-          <ItemTitle>{Title}</ItemTitle>
-          <PriceSection>{Price}</PriceSection>
+          <ItemTitle>{params.item.name}</ItemTitle>
+          <PriceSection>{params.item.price}</PriceSection>
           <BottomSection>
-            <AvatarEl>
-              <Image src={Avatar} width="50" height="50" />
-            </AvatarEl>
-            <AuthorEl>{Author}</AuthorEl>
-            <LikesEl>
+            <Button onClick={() => {params.modalFunc(params.item)}} >Buy Product</Button>            
+            <AuthorEl>{params.item.owner}</AuthorEl>
+            {/* <LikesEl>
               <BsHeart /> {Likes}
-            </LikesEl>
+            </LikesEl> */}
           </BottomSection>
         </InfoSection>
       </Card>
