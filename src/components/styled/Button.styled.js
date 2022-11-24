@@ -12,6 +12,7 @@ const Button = styled.button`
     ${Colors.Gradients.PrimaryToSec[1]}
   );
   padding: 0.5rem 1.5rem;
+  margin: 15px;
   font-weight: 500;
   color: ${Colors.White};
   border: none;

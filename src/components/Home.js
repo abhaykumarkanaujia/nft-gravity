@@ -7,12 +7,22 @@ import Hero from "./Home/Hero";
 import NewsLetter from "./Home/NewsLetter";
 import Carousel from "./Home/Carousel";
 import TopCollectibles from "./Home/TopCollectibles";
+import ModalComponent from "./styled/Modal.styled";
+import { useState } from "react";
 
 const HomeEl = styled.article`
   color: ${Colors.White};
 `;
 
 export default function Home() {
+  const [trigger, setTrigger] = useState(false);
+  const [detail, setDetail] = useState();
+
+  const handleTrigger = async (item) => {
+      setDetail(item);
+      setTrigger(true); 
+  }
+
   return (
     <HomeEl>
       <Head>
@@ -25,7 +35,8 @@ export default function Home() {
       </Head>
       <Hero/>
       <Carousel />
-      <TopCollectibles />
+      <TopCollectibles modalFunc={handleTrigger}/>
+      <ModalComponent show = {trigger} info = {detail} />
     </HomeEl>
   );
 }

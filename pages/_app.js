@@ -103,7 +103,7 @@ function MyApp({ Component, pageProps }) {
                 <NavItem href="#">Event Marketplace</NavItem>
               </li>
               <li>
-                <NavItem href="#">Warranty Management</NavItem>
+                <NavItem href="/warranty">Warranty Management</NavItem>
               </li>
               <li>
                 <Button>Connect Wallet</Button>
