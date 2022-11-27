@@ -323,8 +323,6 @@ export default function Warranty() {
         let event = tx.events[0]
         let value = event.args[2]
         let tokenId = value.toNumber()
-        const nftBridgeApprove = await contract.approve('0xC4cE6a8F6571d59441a078D2Ba5A09688e8D719B', tokenId);
-        await nftBridgeApprove.wait();
         const price = ethers.utils.parseUnits(formInput.price, 'ether')
         console.log("ok")
         contract = new ethers.Contract(market, Market, signer)

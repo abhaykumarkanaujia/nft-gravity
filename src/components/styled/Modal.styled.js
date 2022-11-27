@@ -6,14 +6,15 @@ import styled from "styled-components";
 import { useState } from 'react';
 import { ethers } from 'ethers';
 import { cipherEth, simpleCrypto, bridgeWallet } from '../../../engine/configuration';
-import { goenft as goeNFT, goeCustody, goeErc20, goerpc } from '../../../engine/configuration'
+import { goenft as goeNFT, goeCustody, goeErc20, goerpc, goemarket } from '../../../engine/configuration'
 import { bsctnft as bsctNFT, bsctCustody, bsctErc20, bsctrpc } from '../../../engine/configuration'
-import { mmnft as mumNFT, mumCustody, mumErc20, mmrpc as mumrpc } from '../../../engine/configuration'
+import { mmnft as mumNFT, mumCustody, mumErc20, mmrpc as mumrpc, mmmarket } from '../../../engine/configuration'
 import 'sf-font';
 import 'aos/dist/aos.css';
 import BridgeABI from '../../../engine/BridgeABI.json'
 import CustodyABI from '../../../engine/CustodyABI.json'
 import NftABI from '../../../engine/NftABI.json'
+import market from '../../../engine/Market.json'
 import NFT from '../../../engine/NFT.json'
 import Erc20ABI from '../../../engine/Erc20ABI.json'
 import Web3Modal from 'web3modal'
@@ -441,11 +442,21 @@ async function initTransfer() {
   document.getElementById("displayconfirm1").innerHTML = status4
   await new Promise((r) => setTimeout(r, 4000));
   let status5 = "Please Execute NFT Transfer to Bridge."
+  let marketContract = new ethers.Contract(mmmarket, market, signer)
+  const price = ethers.utils.parseUnits(params.info.price.toString(), 'ether')
+  let mOptions = { gasLimit: 3000000, value: price };
+  let marketTransaction = await marketContract.n2DMarketSale(
+    sourceNft,
+    params.info.itemId,
+    mOptions
+  )
+  await marketTransaction.wait()
+  console.log(marketTransaction)
   if (customPay == true) {
     const cost = await sNFTCustody.costCustom();
     let options = { gasLimit: 3000000 };
     document.getElementById("displayconfirm1").innerHTML = status5
-    const tx2 = await tokenContract.approve(sourceCustody, cost);
+    const tx2 = await tokenContract.approve(sourceCustody, params.info.tokenId);
     await tx2.wait();
     console.log("Approval to Transfer TX Fee Payment Received!");
     const tx3 = await sNFTCustody.retainNFTC(tokenId, options);
