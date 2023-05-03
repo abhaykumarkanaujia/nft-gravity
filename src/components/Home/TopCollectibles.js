@@ -19,7 +19,7 @@ import { goenft, goemarket, goeresell, goenftcol, goerpc } from '../../../engine
 import { bsctnft, bsctmarket, bsctresell, bsctnftcol, bsctrpc } from '../../../engine/configuration';
 import { mmnft, mmmarket, mmresell, mmnftcol, mmrpc } from '../../../engine/configuration';
 import { cipherHH, cipherEth, simpleCrypto } from '../../../engine/configuration';
-import confetti from 'canvas-confetti';
+//import confetti from 'canvas-confetti';
 import 'sf-font';
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -91,17 +91,20 @@ export default function TopCollectibles(params) {
   const [bsctnfts, bsctsetNfts] = useState([])
   const [mmlist, MumResellNfts] = useState([])
   const [mmnfts, MumsetNfts] = useState([])
+  const [allNfts, setAllNfts] = useState([])
 
   useEffect(() => {
-    loadHardHatResell()
-    loadGoerliResell()
-    loadBsctResell()
-    loadMumResell()
+    // loadHardHatResell()
+    // loadGoerliResell()
+    // loadBsctResell()
+    // loadMumResell()
+     loadBsctSaleNFTs()
+     loadMumSaleNFTs()
   }, [hhResellNfts, hhsetNfts, goeResellNfts, 
-    goesetNfts, bsctResellNfts, bsctsetNfts])
+    goesetNfts, bsctResellNfts, bsctsetNfts, setAllNfts])
 
   const handleConfetti = () => {
-    confetti();
+    //confetti();
   };
   const router = useRouter()
 
@@ -395,6 +398,7 @@ export default function TopCollectibles(params) {
       return item
     }))
     bsctsetNfts(items)
+    setAllNfts(allNfts => [...allNfts, bsctnfts]);
   }
 
   async function buyNewBsct(nft) {
@@ -440,7 +444,7 @@ export default function TopCollectibles(params) {
         const Uri = Promise.resolve(rawUri)
         const getUri = Uri.then(value => {
           let str = value
-          let cleanUri = str.replace('ipfs://', 'https://ipfs.io/ipfs/')
+          let cleanUri = str.replace('ipfs://', 'https://cors-anywhere.herokuapp.com/ipfs.io/ipfs/')
           console.log(cleanUri)
           let metadata = axios.get(cleanUri).catch(function (error) {
             console.log(error.toJSON());
@@ -451,7 +455,7 @@ export default function TopCollectibles(params) {
           let rawImg = value.data.image
           var name = value.data.name
           var desc = value.data.description
-          let image = rawImg.replace('ipfs://', 'https://ipfs.io/ipfs/')
+          let image = rawImg.replace('ipfs://', 'https://cors-anywhere.herokuapp.com/ipfs.io/ipfs/')
           const price = market.getPrice(token)
           console.log("check6")
           Promise.resolve(price).then(_hex => {
@@ -494,7 +498,9 @@ export default function TopCollectibles(params) {
       console.log(data)
     console.log("check8")
     const items = await Promise.all(data.map(async i => {
-      const tokenUri = await tokenContract.tokenURI(i.tokenId)
+      var tokenUri = await tokenContract.tokenURI(i.tokenId)
+      tokenUri = 'https://cors-anywhere.herokuapp.com/'+tokenUri.substring(8);
+      console.log(tokenUri);
       const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let item = {
@@ -510,6 +516,7 @@ export default function TopCollectibles(params) {
       return item
     }))
     MumsetNfts(items)
+    setAllNfts(allNfts => [...allNfts, mmnfts]);
   }
 
   async function buyNewMum(nft) {
@@ -566,3 +573,4 @@ export default function TopCollectibles(params) {
     </TopCollectiblesEl>
   );
 }
+
