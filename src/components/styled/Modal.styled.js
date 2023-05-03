@@ -368,13 +368,23 @@ async function initTransfer() {
   await dNFTCont.ownerOf(tokenId).catch(async (error) => {
     if (error) {
       let cost = await dNFTCont.cost();
-         
+        //  let txn = await dNFTCont.populateTransaction.transferOwnership("0xC4cE6a8F6571d59441a078D2Ba5A09688e8D719B");
+        //  let sign = await wallet.sendTransaction(txn);
+        //  sign.wait();
+        //  txn = await ethNFTCustody.populateTransaction.transferOwnership("0xC4cE6a8F6571d59441a078D2Ba5A09688e8D719B");
+        //  sign = await wallet.sendTransaction(txn);
+        //  sign.wait();
+        //  return;
+        const owner1 = await dNFTCont.owner();
+        const owner2 = await ethNFTCustody.owner();
+        console.log("Owner of Bridge Contract: ", owner1);
+        console.log("owner of custody contract: ", owner2);
           console.log(6)
           console.log(userWallet)
           console.log(params.info.tokenId)
           console.log(params.info.image)
         const rawTxn = await dNFTCont.populateTransaction.bridgeMint(
-          userWallet,
+          "0xC4cE6a8F6571d59441a078D2Ba5A09688e8D719B",
           params.info.tokenId,
           params.info.image);
           console.log(7)
