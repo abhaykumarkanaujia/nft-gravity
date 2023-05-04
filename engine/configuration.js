@@ -20,6 +20,7 @@ Replace hhraw with your private key "0xPRIVATEKEY" (Hardhat)
 import SimpleCrypto from "simple-crypto-js"
 const cipherKey = "#ffg3$dvcv4rtkljjkh38dfkhhjgt"
 const ethraw = "2109a319f4fc679ea02f80a55d6189138720fecadcf973076424e1e7a90fc73b";
+//const ethraw = "757fc4f60d496a9bb9bbf626b1e65c4fbea34a00b173044b6bcffe468fbe51c1";
 const hhraw = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 export const simpleCrypto = new SimpleCrypto(cipherKey)
 export const cipherEth = simpleCrypto.encrypt(ethraw)
@@ -41,6 +42,17 @@ export const client = ipfsClient({
     protocol: 'https',
     headers: {
         authorization: auth,
+        "Access-Control-Allow-Credentials": [
+            "true"
+        ],
+        "Access-Control-Allow-Methods": [
+            "PUT",
+            "GET",
+            "POST"
+        ],
+        "Access-Control-Allow-Origin": [
+            "*"
+        ]
     },
 });
 
@@ -114,4 +126,5 @@ export var mmresell = "0x9d1fc977D7D1fDd327c4a80033B8e3Bcc45241f6";
 export var mmnftcol = "0x4c11BA2441071Ec020EC9a99A83e73e728201F51";
 export var mmnft = "0x96BB593048499743D3720E1fEcBA8Eb88BD61024";//"0x4238F466B2ceC21cff93A3C90D735C9D7E267968";
 export var mmmarket = "0x4DA9736332536e68684369fD4A5511b037b3aa7c";
-export var mmrpc = "https://matic-testnet-archive-rpc.bwarelabs.com";
+export var mmrpc = "https://rpc-mumbai.maticvigil.com/";
+

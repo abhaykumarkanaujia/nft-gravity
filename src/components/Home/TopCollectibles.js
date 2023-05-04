@@ -560,13 +560,14 @@ export default function TopCollectibles(params) {
         <Date>Today</Date>
       </TopSection>
       <Grid>
-        {mmnfts.map((nft) => {
-          return (
+        {mmnfts.map((nft, index) => {
+          if ( index >= mmnfts.length - 6) {
+            return (
               <a>
                 <NFTCard item={nft} modalFunc = {params.modalFunc} />
               </a>
-            
           );
+          } 
         })}
       </Grid>
       <ShowMore>Show More</ShowMore>
