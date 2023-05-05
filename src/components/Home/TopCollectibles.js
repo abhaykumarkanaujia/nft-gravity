@@ -98,7 +98,7 @@ export default function TopCollectibles(params) {
     // loadGoerliResell()
     // loadBsctResell()
     // loadMumResell()
-     loadBsctSaleNFTs()
+     //loadBsctSaleNFTs()
      loadMumSaleNFTs()
   }, [hhResellNfts, hhsetNfts, goeResellNfts, 
     goesetNfts, bsctResellNfts, bsctsetNfts, setAllNfts])
@@ -499,7 +499,10 @@ export default function TopCollectibles(params) {
     console.log("check8")
     const items = await Promise.all(data.map(async i => {
       var tokenUri = await tokenContract.tokenURI(i.tokenId)
-      tokenUri = 'https://cors-anywhere.herokuapp.com/'+tokenUri.substring(8);
+      console.log()
+      tokenUri = tokenUri.replace('https://ipfs.infura.io/', 'https://cf-ipfs.com/')
+      tokenUri = tokenUri.replace('https://infura-ipfs.io/', 'https://cf-ipfs.com/')
+      //tokenUri = 'https://'+tokenUri;
       console.log(tokenUri);
       const meta = await axios.get(tokenUri)
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
@@ -574,4 +577,5 @@ export default function TopCollectibles(params) {
     </TopCollectiblesEl>
   );
 }
+
 

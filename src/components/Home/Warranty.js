@@ -36,6 +36,7 @@ const WarrantyEl = styled.article`
     margin: 3rem 10rem 5rem 10rem;
   }
 `;
+
 const Title = styled.h1`
   margin-bottom: 3rem;
   font-weight: 500;
@@ -70,6 +71,9 @@ const Slider = styled.div`
   }
 `;
 
+const Box = styled.div`
+`;
+
 const MinterBox = styled.div`
 border-style: solid;
 border-color: ${Colors.White};
@@ -77,6 +81,18 @@ border-radius: 15px;
 padding: 10px;
 width: 300px;
 background-color: ${Colors.Gradients};
+display:flex;
+flex-direction:column;
+`;
+
+const InputSmall = styled.input`
+height: 35px;
+font-size: 15px;
+padding-left: 7px;
+margin: 5px;
+border-radius: 5px;
+border-style: hidden;
+width: 250px
 `;
 
 const Input = styled.input`
@@ -86,12 +102,14 @@ padding-left: 7px;
 margin: 10px;
 border-radius: 5px;
 border-style: hidden;
+width: 250px;
 `;
 
 
 const Form = styled.div`
  display:flex;
  flex-direction:column;
+ align-items:center;
 `;
 
 const ImgContainer = styled.div`
@@ -238,7 +256,7 @@ export default function Warranty() {
                     progress: (prog) => console.log(`received: ${prog}`)
                 }
             )
-            const url = `https://infura-ipfs.io/ipfs/${added.path}`
+            const url = `https://cf-ipfs.com/ipfs/${added.path}`
             console.log("Testing:", url)
             setFileUrl(url)
         } catch (error) {
@@ -303,7 +321,7 @@ export default function Warranty() {
         })
         try {
             const added = await client.add(data)
-            const url = `https://infura-ipfs.io/ipfs/${added.path}`
+            const url = `https://cf-ipfs.com/ipfs/${added.path}`
             createNFT(url)
         } catch (error) {
             console.log('Error uploading file: ', error)
@@ -395,9 +413,16 @@ export default function Warranty() {
         <Input type="text" placeholder="Set your price " 
         onChange={e => updateFormInput({ ...formInput, price: e.target.value })}
         />
+        <Sub>Warranty Time Period</Sub>
+        <Box>
+          <InputSmall type="text" placeholder="Years" />
+          <InputSmall type="text" placeholder="Months" />
+          <InputSmall type="text" placeholder="Days" />
+        </Box>
         <Button onClick={createMarket}>Create Product</Button>
         </Form>
       </MinterBox>
     </WarrantyEl>
   );
 }
+
