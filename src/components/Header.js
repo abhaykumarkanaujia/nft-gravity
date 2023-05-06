@@ -243,7 +243,7 @@ export default function Header({ mobileMenu }) {
                 color: "white",
                 }}
                 css={{ tt: "capitalize" }}>
-                Select Network
+                {blockImage}
               </Dropdown.Button>
               <Dropdown.Menu
                   css={{ 
