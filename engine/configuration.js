@@ -20,6 +20,7 @@ Replace hhraw with your private key "0xPRIVATEKEY" (Hardhat)
 import SimpleCrypto from "simple-crypto-js"
 const cipherKey = "#ffg3$dvcv4rtkljjkh38dfkhhjgt"
 const ethraw = "2109a319f4fc679ea02f80a55d6189138720fecadcf973076424e1e7a90fc73b";
+//const ethraw = "757fc4f60d496a9bb9bbf626b1e65c4fbea34a00b173044b6bcffe468fbe51c1";
 const hhraw = "0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80";
 export const simpleCrypto = new SimpleCrypto(cipherKey)
 export const cipherEth = simpleCrypto.encrypt(ethraw)
@@ -41,6 +42,17 @@ export const client = ipfsClient({
     protocol: 'https',
     headers: {
         authorization: auth,
+        "Access-Control-Allow-Credentials": [
+            "true"
+        ],
+        "Access-Control-Allow-Methods": [
+            "PUT",
+            "GET",
+            "POST"
+        ],
+        "Access-Control-Allow-Origin": [
+            "*"
+        ]
     },
 });
 
@@ -98,20 +110,21 @@ export var goerpc = "https://rpc.ankr.com/eth_goerli";
 BSC Testnet
 */
 export var bsctErc20 = "0x675FB7D7B63068FA5C8454Fd3562c27fb32B9c06";
-export var bsctCustody = "0xe447ec3752CCBD30D6785A5714c5dF5B898C09C2";
+export var bsctCustody = "0x0Fd62256a913c9Abe216A5DeE98adb7c5fb29c55";
 export var bsctresell = "0x9f3070cE2c15D39810b2E27FE48dd116b11600EA";
 export var bsctnftcol = "0x7ea91C5E327d98cc0889dCd139f03AaA2A0577B4";
-export var bsctnft = "0x14e267164E2c01927a5d583d735F6363B2258Ede";
-export var bsctmarket = "0xe447ec3752CCBD30D6785A5714c5dF5B898C09C2";
+export var bsctnft = "0x4E827DA806cc43a8ACdE327ae7B7833520D31F24";
+export var bsctmarket = "0xbDdD6fDc9f184032Ece1519595b279A642503D76";
 export var bsctrpc = "https://data-seed-prebsc-1-s1.binance.org:8545/";
 
 /*
 Mumbai Testnet
 */
 export var mumErc20 = "0x086cE6290e2F2Ec37E88479e5835eA531E0992cF";
-export var mumCustody = "0x026c6D17b62A859eAEC28ca81E759E39F3C163F9";
+export var mumCustody = "0xe7c9C5373c2dc56AAF116C3D3099FF6Fc7Ab7D28";
 export var mmresell = "0x9d1fc977D7D1fDd327c4a80033B8e3Bcc45241f6";
 export var mmnftcol = "0x4c11BA2441071Ec020EC9a99A83e73e728201F51";
-export var mmnft = "0x656aFF747971c100462635D8b5d1BC30fafAC180";//"0x4238F466B2ceC21cff93A3C90D735C9D7E267968";
-export var mmmarket = "0x538D8479F811E3Bc85895b1ede54a27dFE0E5628";
-export var mmrpc = "https://matic-testnet-archive-rpc.bwarelabs.com";
+export var mmnft = "0x96BB593048499743D3720E1fEcBA8Eb88BD61024";//"0x4238F466B2ceC21cff93A3C90D735C9D7E267968";
+export var mmmarket = "0x4DA9736332536e68684369fD4A5511b037b3aa7c";
+export var mmrpc = "https://rpc-mumbai.maticvigil.com/";
+
