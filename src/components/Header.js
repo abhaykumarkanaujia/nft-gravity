@@ -17,12 +17,12 @@ const HeaderEl = styled.header`
   color: ${Colors.White};
   width: 100%;
   align-items: center;
-  height: 100%;
+  height: 4rem;
   gap: 1rem;
-  padding: 1rem 1.5rem;
+  padding: 1rem;
   top: 0;
   background-color: ${Colors.Background};
-  box-shadow: 0px 0px 3rem ${Colors.Primary};
+  box-shadow: 0px 0px 2rem ${Colors.Primary};
   
 
   position: sticky;
@@ -45,14 +45,12 @@ const LogoText = styled.a`
   font-weight: 800;
   color: ${Colors.White};
   display:none;
-  
-  
 `;
 
 const Logo = styled.img`
-  width: 150px;
+  width: 100px;
+  height: auto;
   padding-right: 1rem;
-  
 `;
 
 const Nav = styled.nav`
@@ -99,7 +97,6 @@ const AuthItems = styled(NavItem)`
 
 export default function Header({ mobileMenu }) {
   const { MobileMenuIsOpen, setMobileMenuIsOpen } = mobileMenu;
-  const [SearchIsOpen, setSearchIsOpen] = useState(false);
 
   function toggleMenu() {
     setMobileMenuIsOpen(!MobileMenuIsOpen);
@@ -218,107 +215,82 @@ export default function Header({ mobileMenu }) {
 
 
       <Center>
-        <Logo src="/images/GravityLogo.png" />
-        <LogoText href="#">GRAVITY</LogoText>
+        <Logo href="/" src="/images/GravityLogo.png" />
+        <LogoText href="/">GRAVITY</LogoText>
         <Nav>
           <ul>
             <li>
-              <NavItem href="https://event-ticket-marketplace.vercel.app/">Event Marketplace</NavItem>
+              <NavItem href="/" >Home</NavItem>
+            </li>
+            <li>
+              <NavItem href="/marketplace">Event Marketplace</NavItem>
             </li>
             <li>
               <NavItem href="/warranty">Warranty Management</NavItem>
             </li>
             <li>
-              <NavItem href="/home" >Home</NavItem>
+              <Col css={{ marginTop: "$6" }}>
+              <Dropdown>
+              <Dropdown.Button
+                aria-label='Connect Wallet'
+                flat
+                style={{
+                background: Colors.Background,
+                fontSize: "16px",
+                fontWeight: "400",
+                marginLeft: "0",
+                padding: "0",
+                color: "white",
+                }}
+                css={{ tt: "capitalize" }}>
+                Select Network
+              </Dropdown.Button>
+              <Dropdown.Menu
+                  css={{ 
+                    backgroundColor:'#ffffff30'
+                  }}
+                  aria-label="Single selection actions"
+                  color="secondary"
+                  disallowEmptySelection
+                  selectionMode="single"
+                  selectedKeys={selected}
+                  onSelectionChange={setSelected}
+                  textValue={selected}> 
+                  <Dropdown.Item textValue="Ethereum" key="Ethereum">
+                    Ethereum
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    textValue="Binance Smart Chain"
+                    key="Binance Smart Chain"
+                  >
+                  Binance Smart Chain
+                  </Dropdown.Item>
+                  <Dropdown.Item textValue="Polygon" key="Polygon">
+                    Polygon
+                  </Dropdown.Item>
+                  <Dropdown.Item textValue="Hardhat" key="Hardhat">
+                    HardHat Node
+                  </Dropdown.Item>
+                  <Dropdown.Item textValue="Goerli" key="Goerli">
+                    Goerli TestNet
+                  </Dropdown.Item>
+                  <Dropdown.Item textValue="Bsctest" key="Bsctest">
+                    BSC TestNet
+                  </Dropdown.Item>
+                  <Dropdown.Item textValue="Mumbai" key="Mumbai">
+                    Mumbai TestNet
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+              </Col>
             </li>
             <li>
               <Button>Connect Wallet</Button>
-            </li>
-            <li>
-            <Col css={{ marginTop: "$6" }}>
-          <Dropdown>
-            <Dropdown.Button
-            aria-label='Connect Wallet'
-              flat
-              style={{
-                background: "#00000070",
-                boxShadow: "0px 0px 4px #ffffff",
-                fontFamily: "SF Pro Display",
-                fontWeight: "500",
-                color: "white",
-                fontSize: "20px",
-              }}
-              css={{ tt: "capitalize" }}
-            >
-            {blockImage}
-            </Dropdown.Button>
-            <Dropdown.Menu
-                  css={{ 
-                  backgroundColor:'#ffffff30'
-                }}
-              aria-label="Single selection actions"
-              color="secondary"
-              disallowEmptySelection
-              selectionMode="single"
-              selectedKeys={selected}
-              onSelectionChange={setSelected}
-              textValue={selected}
-            > 
-              <Dropdown.Item textValue="Ethereum" key="Ethereum">
-                Ethereum
-              </Dropdown.Item>
-              <Dropdown.Item
-                textValue="Binance Smart Chain"
-                key="Binance Smart Chain"
-              >
-               Binance Smart Chain
-              </Dropdown.Item>
-              <Dropdown.Item textValue="Polygon" key="Polygon">
-                Polygon
-              </Dropdown.Item>
-              <Dropdown.Item textValue="Hardhat" key="Hardhat">
-                HardHat Node
-              </Dropdown.Item>
-              <Dropdown.Item textValue="Goerli" key="Goerli">
-                Goerli TestNet
-              </Dropdown.Item>
-              <Dropdown.Item textValue="Bsctest" key="Bsctest">
-                BSC TestNet
-              </Dropdown.Item>
-              <Dropdown.Item textValue="Mumbai" key="Mumbai">
-                Mumbai TestNet
-              </Dropdown.Item>
-            </Dropdown.Menu>
-          </Dropdown>
-        </Col>
             </li>
           </ul>
         </Nav>
 
       </Center>
-
-
-
-      {SearchIsOpen ? (
-        <SearchBarMob
-          SearchIsOpen={SearchIsOpen}
-          setSearchIsOpen={setSearchIsOpen}
-
-        />
-      ) : (
-        ""
-      )}
-
-
-      <SearchIcon>
-        <CgSearch
-          onClick={() => {
-            setSearchIsOpen(!SearchIsOpen);
-          }}
-        />
-      </SearchIcon>
-
-
     </HeaderEl>
   );
 }
