@@ -2,6 +2,8 @@ import styled from "styled-components";
 import Image from "next/image";
 import Button from "../styled/Button.styled";
 import { Colors, Devices } from "../Theme";
+import { useState } from "react";
+import ModalComponent from "../styled/Modal.styled";
 
 const BidStickyEl = styled.article`
   box-shadow: 0 4px 40px rgb(0 0 0 /10%);
@@ -58,9 +60,15 @@ const TextEl = styled.span`
   font-size: 0.7rem;
 `;
 
-export default function BidSticky() {
+export default function BidSticky(params) {
+  const [trigger, setTrigger] = useState(false);
+  function invokeBridge() {
+       setTrigger(true);
+  }
+
   return (
     <BidStickyEl>
+      <ModalComponent show = {trigger} info = {params.data} />
       <LeftSection>
         <ThumbEl>
           <Image src="/images/nft/bking.png" width="80px" height="80px" />
@@ -71,9 +79,12 @@ export default function BidSticky() {
         </Info>
       </LeftSection>
       <RightSection>
-        <PlaceBidBtn>Place a bid</PlaceBidBtn>
+        <PlaceBidBtn onClick={() => {
+          invokeBridge();
+        }} >Buy Product</PlaceBidBtn>
         <TextEl>A 10% royalty goes to the creator for future resale</TextEl>
       </RightSection>
     </BidStickyEl>
   );
 }
+

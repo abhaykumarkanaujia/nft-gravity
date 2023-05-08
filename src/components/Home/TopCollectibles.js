@@ -98,7 +98,7 @@ export default function TopCollectibles(params) {
     // loadGoerliResell()
     // loadBsctResell()
     // loadMumResell()
-     //loadBsctSaleNFTs()
+     loadBsctSaleNFTs()
      loadMumSaleNFTs()
   }, [hhResellNfts, hhsetNfts, goeResellNfts, 
     goesetNfts, bsctResellNfts, bsctsetNfts, setAllNfts])
@@ -388,17 +388,20 @@ export default function TopCollectibles(params) {
       let price = ethers.utils.formatUnits(i.price.toString(), 'ether')
       let item = {
         price,
+        itemId: i.itemId.toNumber(),
         tokenId: i.tokenId.toNumber(),
         seller: i.seller,
         owner: i.owner,
         image: meta.data.image,
         name: meta.data.name,
         description: meta.data.description,
+        chain: "bsc"
       }
+      allNfts.push(item);
       return item
     }))
     bsctsetNfts(items)
-    setAllNfts(allNfts => [...allNfts, bsctnfts]);
+    //setAllNfts(allNfts => [...allNfts, ...bsctnfts]);
   }
 
   async function buyNewBsct(nft) {
@@ -498,7 +501,13 @@ export default function TopCollectibles(params) {
       console.log(data)
     console.log("check8")
     const items = await Promise.all(data.map(async i => {
-      var tokenUri = await tokenContract.tokenURI(i.tokenId)
+      
+      var tokenUri;
+      try {
+        tokenUri = await tokenContract.tokenURI(i.tokenId);
+      } catch {
+        return;
+      }
       console.log()
       tokenUri = tokenUri.replace('https://ipfs.infura.io/', 'https://cf-ipfs.com/')
       tokenUri = tokenUri.replace('https://infura-ipfs.io/', 'https://cf-ipfs.com/')
@@ -515,11 +524,13 @@ export default function TopCollectibles(params) {
         image: meta.data.image,
         name: meta.data.name,
         description: meta.data.description,
+        chain: "matic"
       }
+      allNfts.push(item);
       return item
     }))
     MumsetNfts(items)
-    setAllNfts(allNfts => [...allNfts, mmnfts]);
+   // setAllNfts(allNfts => [...allNfts, ...mmnfts]);
   }
 
   async function buyNewMum(nft) {
@@ -557,14 +568,14 @@ export default function TopCollectibles(params) {
   
   return (
     <TopCollectiblesEl>
-      <Title>In-Wallet NFT</Title>
+      <Title>Available Product NFTs</Title>
       <TopSection>
         <Sort></Sort>
         <Date>Today</Date>
       </TopSection>
       <Grid>
-        {mmnfts.map((nft, index) => {
-          if ( index >= mmnfts.length - 6) {
+        {allNfts.map((nft, index) => {
+          if ( nft !== undefined ) {
             return (
               <a>
                 <NFTCard item={nft} modalFunc = {params.modalFunc} />

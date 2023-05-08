@@ -11,14 +11,18 @@ import { useRouter } from 'next/router';
 import Web3Modal from "web3modal";
 import NFT from '../../../engine/NFT.json';
 import Market from '../../../engine/Market.json';
-import { mmnft, mmmarket } from '../../../engine/configuration';
+import LatestABI from '../../../engine/LatestABI.json'
+
+import { mmnft, mmmarket, mmrpc, latestID } from '../../../engine/configuration';
 import { goenft, goemarket } from '../../../engine/configuration';
 import { hhnft, hhmarket } from '../../../engine/configuration';
 import { bsctnft, bsctmarket } from '../../../engine/configuration';
-import detectEthereumProvider from '@metamask/detect-provider';
+import { cipherEth, simpleCrypto } from '../../../engine/configuration';import detectEthereumProvider from '@metamask/detect-provider';
 //import { Card, Button, Input, Col, Row, Spacer, Container, Text } from '@nextui-org/react';
 import { client } from '../../../engine/configuration';
 import 'sf-font';
+//import { MongoClient } from "mongodb";
+//import { latest } from "@nomicfoundation/hardhat-network-helpers/dist/src/helpers/time";
 
 
 const WarrantyEl = styled.article`
@@ -239,8 +243,12 @@ export default function Warranty() {
   const [fileUrl, setFileUrl] = useState(null)
     const [nftcontract, getNft] = useState([])
     const [market, getMarket] = useState([])
-    const [formInput, updateFormInput] = useState({ price: '', name: '', description: '' })
-   
+   // const [latestID, setLatestID] = useState(0);
+    const [formInput, updateFormInput] = useState({ price: '', name: '', description: '', days: 0, months: 0, years: 0 })
+    // const URI = "mongodb+srv://abhishek27082000:qwertyuiop@cluster0.nykis4h.mongodb.net/?retryWrites=true&w=majority";
+    // const Client = new MongoClient(URI);
+
+
     useEffect(() => {
         setNft();
       }, [getNft, getMarket])
@@ -289,7 +297,7 @@ export default function Warranty() {
         console.log(nftcontract)
         setMarket();
       }
-  
+     
       async function setMarket(){
         var hh = "0x7a69";
         var goe = "0x5";
@@ -314,6 +322,7 @@ export default function Warranty() {
 
 
     async function createMarket() {
+      window.alert("Miniting Initiated, Sit Tight!!!");
         const { name, description, price } = formInput
         if (!name || !description || !price || !fileUrl) return
         const data = JSON.stringify({
@@ -328,6 +337,18 @@ export default function Warranty() {
         }
     }
 
+     async function getLastestID() {
+      const ethprovider = new ethers.providers.JsonRpcProvider(mmrpc);
+      const ethKey = simpleCrypto.decrypt(cipherEth);
+      var wallet = new ethers.Wallet(ethKey, ethprovider);
+      const IDContract = new ethers.Contract(latestID, LatestABI, wallet);
+      const currentId = await IDContract.id();
+      const txn = await IDContract.getID();
+      const output = await txn.wait();
+      console.log(output);
+      return currentId.toNumber();
+  }
+
     async function createNFT(url) {
         const web3Modal = new Web3Modal()
         const connection = await web3Modal.connect()
@@ -335,8 +356,9 @@ export default function Warranty() {
         const signer = provider.getSigner()
         let contract = new ethers.Contract(nftcontract, NFT, signer)
         console.log(contract)
-
-        let transaction = await contract.createNFT(url)
+        const id = await getLastestID();
+        let period = 31556952 * formInput.years + 2628000 * formInput.months + 864000 * formInput.days;
+        let transaction = await contract.createNFT(url, id, period);
         let tx = await transaction.wait()
         let event = tx.events[0]
         let value = event.args[2]
@@ -375,7 +397,7 @@ export default function Warranty() {
         const signer = provider.getSigner()
         let contract = new ethers.Contract(nftcontract, NFT, signer)
         let cost = await contract.cost()
-        let transaction = await contract.mintNFT(url, { value: cost })
+        let transaction = await contract.mintNFT(url, 1, { value: cost })
         await transaction.wait()
         router.push('/portal')
     }
@@ -415,9 +437,12 @@ export default function Warranty() {
         />
         <Sub>Warranty Time Period</Sub>
         <Box>
-          <InputSmall type="text" placeholder="Years" />
-          <InputSmall type="text" placeholder="Months" />
-          <InputSmall type="text" placeholder="Days" />
+          <InputSmall type="text" placeholder="Years" 
+          onChange={e => updateFormInput({ ...formInput, years: e.target.value })} />
+          <InputSmall type="text" placeholder="Months" 
+          onChange={e => updateFormInput({ ...formInput, months: e.target.value })} />
+          <InputSmall type="text" placeholder="Days" 
+          onChange={e => updateFormInput({ ...formInput, days: e.target.value })} />
         </Box>
         <Button onClick={createMarket}>Create Product</Button>
         </Form>
