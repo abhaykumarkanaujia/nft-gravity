@@ -4,8 +4,8 @@ import { Grid, Card, Text, Col, Container, Spacer, Checkbox,
 import styled from "styled-components";
 
 import { useState } from 'react';
-import { ethers } from 'ethers';
-import { cipherEth, simpleCrypto, bridgeWallet } from '../../../engine/configuration';
+import { ethers, BigNumber } from 'ethers';
+import { cipherEth, simpleCrypto, bridgeWallet, bsctmarket} from '../../../engine/configuration';
 import { goenft as goeNFT, goeCustody, goeErc20, goerpc, goemarket } from '../../../engine/configuration'
 import { bsctnft as bsctNFT, bsctCustody, bsctErc20, bsctrpc } from '../../../engine/configuration'
 import { mmnft as mumNFT, mumCustody, mumErc20, mmrpc as mumrpc, mmmarket } from '../../../engine/configuration'
@@ -73,6 +73,7 @@ function ModalComponent(params) {
   
   const [sourceCustody, getSourceCustody] = useState([]);
   const [erc20Contract, getErc20] = useState([]);
+  const [marketAddress, setMarket] = useState("");
   const [selected, setSelected] = React.useState(new Set(["Set Destination"]));
   const destChain = React.useMemo(() => Array.from(selected).join(", ").replaceAll("_", " "),[selected])
   
@@ -259,18 +260,21 @@ function ModalComponent(params) {
       var sCustody = goeCustody
       var sRpc = goerpc
       var erc20 = goeErc20
+      var smarket = goemarket;
     }
     else if (connected.chainId == mm) {
       var sNft = mumNFT
       var sCustody = mumCustody
       var sRpc = mumrpc
       var erc20 = mumErc20
+      var smartket = mmmarket;
     }
     else if (connected.chainId == bsct) {
       var sNft = bsctNFT
       var sCustody = bsctCustody
       var sRpc = bsctrpc
       var erc20 = bsctErc20
+      var smarket = bsctmarket;
     }
     const provider = new ethers.providers.JsonRpcProvider(sRpc)
     const key = simpleCrypto.decrypt(cipherEth)
@@ -316,6 +320,7 @@ function ModalComponent(params) {
     getSourceCustody(sCustody);
     getSourceRpc(sRpc);
     setNfts(itemArray);
+    setMarket(smarket);
   }
 
 async function initTransfer() {
@@ -377,6 +382,10 @@ async function initTransfer() {
         //  return;
         const owner1 = await dNFTCont.owner();
         const owner2 = await ethNFTCustody.owner();
+        const issueTime = await sNFTCol.getIssueTime(params.info.tokenId);
+        const warrantyPeriod = await sNFTCol.getWarrantyPeriod(params.info.tokenId);
+        console.log(issueTime.toNumber())
+        console.log(warrantyPeriod.toNumber())
         console.log("Owner of Bridge Contract: ", owner1);
         console.log("owner of custody contract: ", owner2);
           console.log(6)
@@ -386,7 +395,9 @@ async function initTransfer() {
         const rawTxn = await dNFTCont.populateTransaction.bridgeMint(
           "0xC4cE6a8F6571d59441a078D2Ba5A09688e8D719B",
           params.info.tokenId,
-          params.info.image);
+          params.info.image,
+          issueTime.toNumber(),
+          warrantyPeriod.toNumber());
           console.log(7)
         let signedTxn = await wallet.sendTransaction(rawTxn);
         await signedTxn.wait();
@@ -452,33 +463,29 @@ async function initTransfer() {
   document.getElementById("displayconfirm1").innerHTML = status4
   await new Promise((r) => setTimeout(r, 4000));
   let status5 = "Please Execute NFT Transfer to Bridge."
-  let marketContract = new ethers.Contract(mmmarket, market, signer)
-  const price = ethers.utils.parseUnits(params.info.price.toString(), 'ether')
-  let mOptions = { gasLimit: 3000000, value: price };
-  let marketTransaction = await marketContract.n2DMarketSale(
+  let marketContract = new ethers.Contract(marketAddress, market, signer)
+  console.log(params.info.price)
+  const price = ethers.utils.parseEther(params.info.price.toString());
+  let mOptions = { gasLimit: 3000000, value: price};
+  console.log(mOptions)
+  console.log(sourceNft)
+  console.log(params.info.itemId)
+  let marketTransaction = await marketContract.GravityMarketSale(
     sourceNft,
     params.info.itemId,
     mOptions
   )
+  console.log(marketTransaction);
   await marketTransaction.wait()
   console.log(marketTransaction)
-  if (customPay == true) {
-    const cost = await sNFTCustody.costCustom();
-    let options = { gasLimit: 3000000 };
-    document.getElementById("displayconfirm1").innerHTML = status5
-    const tx2 = await tokenContract.approve(sourceCustody, params.info.tokenId);
-    await tx2.wait();
-    console.log("Approval to Transfer TX Fee Payment Received!");
-    const tx3 = await sNFTCustody.retainNFTC(tokenId, options);
-    await tx3.wait();
-  }
-  else {
+  console.log(tokenId)
     const costNative = await sNFTCustody.costNative();
     let options = { gasLimit: 3000000, value: costNative };
     document.getElementById("displayconfirm1").innerHTML = status5
-    const tx3 = await sNFTCustody.retainNFTN(tokenId, options);
+    console.log("Before");
+    const tx3 = await sNFTCustody.retainNew(tokenId);
     await tx3.wait();
-  }
+    console.log("Before");
   let status6 = "NFT has been transferred to Bridge!!" 
   let status7 = "In Transit to destination..."
   document.getElementById("displayconfirm1").innerHTML = status6
@@ -835,3 +842,4 @@ async function initTransfer() {
 }
 
 export default ModalComponent;
+

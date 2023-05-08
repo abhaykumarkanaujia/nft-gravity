@@ -1,21 +1,3 @@
-/* 
-       ___  ___    _  _  ___  _____   __  __             _         _   
- _ _  |_  )|   \  | \| || __||_   _| |  \/  | __ _  _ _ | |__ ___ | |_ 
-| ' \  / / | |) | | .` || _|   | |   | |\/| |/ _` || '_|| / // -_)|  _|
-|_||_|/___||___/  |_|\_||_|    |_|   |_|  |_|\__,_||_|  |_\_\\___| \__|
-                                                                    
-Update values accordingly
-xxnft is the NFT SmartContract Address
-xxmarket is the NFT MarketPlace Address
-xxresell is the NFT MarketResell Address
-xxnftcol is the already create NFT Collection Address
-*/
-
-/*
-Private Key Encryption
-Replace ethraw with your private key "0xPRIVATEKEY" (Ethereum and other EVM)
-Replace hhraw with your private key "0xPRIVATEKEY" (Hardhat)
-*/
 
 import SimpleCrypto from "simple-crypto-js"
 const cipherKey = "#ffg3$dvcv4rtkljjkh38dfkhhjgt"
@@ -110,21 +92,21 @@ export var goerpc = "https://rpc.ankr.com/eth_goerli";
 BSC Testnet
 */
 export var bsctErc20 = "0x675FB7D7B63068FA5C8454Fd3562c27fb32B9c06";
-export var bsctCustody = "0x0Fd62256a913c9Abe216A5DeE98adb7c5fb29c55";
+export var bsctCustody = "0x8fad5A1003B16E2033b08D862A431dAD633fcBfc";
 export var bsctresell = "0x9f3070cE2c15D39810b2E27FE48dd116b11600EA";
 export var bsctnftcol = "0x7ea91C5E327d98cc0889dCd139f03AaA2A0577B4";
-export var bsctnft = "0x4E827DA806cc43a8ACdE327ae7B7833520D31F24";
-export var bsctmarket = "0xbDdD6fDc9f184032Ece1519595b279A642503D76";
+export var bsctnft = "0x806a1c19528e7d4DecF8a1443596c5D8424b96d9";
+export var bsctmarket = "0x001E318f49345209a5dD62D9C15fd3Ee53d865ad";
 export var bsctrpc = "https://data-seed-prebsc-1-s1.binance.org:8545/";
 
 /*
 Mumbai Testnet
 */
 export var mumErc20 = "0x086cE6290e2F2Ec37E88479e5835eA531E0992cF";
-export var mumCustody = "0xe7c9C5373c2dc56AAF116C3D3099FF6Fc7Ab7D28";
+export var mumCustody = "0x5A550338102FD88dC6F0e9D3F12329BbC55483D0";
 export var mmresell = "0x9d1fc977D7D1fDd327c4a80033B8e3Bcc45241f6";
 export var mmnftcol = "0x4c11BA2441071Ec020EC9a99A83e73e728201F51";
-export var mmnft = "0x96BB593048499743D3720E1fEcBA8Eb88BD61024";//"0x4238F466B2ceC21cff93A3C90D735C9D7E267968";
-export var mmmarket = "0x4DA9736332536e68684369fD4A5511b037b3aa7c";
+export var mmnft = "0x957759b17c1640Daa67DC3AD11868981386Dd8d4";//"0x4238F466B2ceC21cff93A3C90D735C9D7E267968";
+export var mmmarket = "0x3ebD6A42853a2424CbF9cA4be23871A3BBe2dfd9";
 export var mmrpc = "https://rpc-mumbai.maticvigil.com/";
-
+export var latestID = "0x5aEb4ad761c28552660cEd4a82bfB5C948e497b3";

@@ -11,6 +11,7 @@ import Head from "next/head";
 import EditionSelector from "./Asset/EditionSelector";
 import OwnershipItem from "./Asset/OwnershipItem";
 import BidSticky from "./Asset/BidSticky";
+import { useRouter } from "next/router";
 
 const AssetEl = styled.article`
   background-color: ${Colors.White};
@@ -151,17 +152,21 @@ const AllTabs = [
 ];
 
 export default function Asset() {
+  const router = useRouter();
+  const data = router.query;
+  
   return (
     <AssetEl>
       <Head>Just There</Head>
       <SectionContainer>
         <LeftSection>
           <ImageEl>
-            <Image
-              src="/images/newraw/1.jpeg"
+            <img
+              src={data.image}
+              alt="/images/newraw/1.jpeg"
               layout="responsive"
-              width="1000px"
-              height="1000px"
+              width="400px"
+              height="400px"
             />
           </ImageEl>
           <ChainLink>
@@ -217,7 +222,8 @@ export default function Asset() {
           <Tabs mt="1rem" data={AllTabs} />
         </RightSection>
       </SectionContainer>
-      <BidSticky />
+      <BidSticky data = {data} />
     </AssetEl>
   );
 }
+

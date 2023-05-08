@@ -12,6 +12,7 @@ import Market from '../../../engine/Market.json';
 import NFT from '../../../engine/NFT.json';
 import { useState } from "react";
 import ModalComponent from "./Modal.styled";
+import { useRouter } from "next/router";
 const NFTCardEl = styled.article`
   position: relative;
   display: flex;
@@ -119,12 +120,36 @@ const Image = styled.img`
   height: 250px;
 `;
 
+const ImageIcon = styled.img`
+  width: 120px;
+  height: 80px;
+`;
+
+const Box = styled.div`
+  display: flex;
+  align-items: stretch;
+  gap: 4rem;
+`;
+
+const LinkText = styled.span`
+  color: linear-gradient(
+    to right,
+    ${Colors.Gradients.PrimaryToSec[0]},
+    ${Colors.Gradients.PrimaryToSec[1]}
+  );
+  font-weight: 700;
+  font-style: italic;
+  cursor: pointer;
+  font-size: 12px;
+  text-decoration: underline;
+`;
+
 export default function NFTCard(params) {
   
 
   const [trigger, setTrigger] = useState(false);
-
-
+  const [image, setImage] = useState("");
+  const router = useRouter();
   async function buyNewGoe(nft) {
     // const web3Modal = new Web3Modal()
     
@@ -138,6 +163,14 @@ export default function NFTCard(params) {
     // })
     // await transaction.wait()
    // loadGoeSaleNFTs()
+  }
+
+  function getChainImage() {
+     if ( params.item.chain === "bsc" ) {
+         return "bscIcon.png"; 
+     } else {
+         return "polygon.png"
+     }
   }
   return (
     <NFTCardEl>
@@ -154,10 +187,19 @@ export default function NFTCard(params) {
             {/* <StockEl>{Stock} for sale</StockEl> */}
           </TSection>
           <ItemTitle>{params.item.name}</ItemTitle>
+          <Box>
           <PriceSection>{params.item.price}</PriceSection>
+          <ImageIcon src = {getChainImage()} />
+          </Box>
           <BottomSection>
-            <Button onClick={() => {params.modalFunc(params.item)}} >Buy Product</Button>            
-            <AuthorEl>{params.item.owner}</AuthorEl>
+            <Button onClick={() => {params.modalFunc(params.item)}} >Buy Product</Button>
+            <LinkText onClick={() => { 
+                router.push({
+                  pathname: "/asset",
+                  query: params.item
+                })
+             }} >More Details</LinkText>            
+            {/* <AuthorEl>{params.item.owner}</AuthorEl> */}
             {/* <LikesEl>
               <BsHeart /> {Likes}
             </LikesEl> */}
@@ -169,3 +211,4 @@ export default function NFTCard(params) {
     </NFTCardEl>
   );
 }
+
