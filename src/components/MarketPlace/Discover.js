@@ -72,7 +72,10 @@ const CreateEventLink = styled.a`
 const Discover = () => {
   const nftEvents = Array.from({ length: 12 }).map((_, i) => (
     <NftListItem key={i}>
-      <EventCard />
+      <EventCard eventTitle={"Put Title Here"} eventLocation={"Put Location Here"}
+        eventTime={"Put Time String Here"} creatorName = {"Put Creator Name Here"}
+        eventImage={"/images/slider/2.jpeg"}
+      />
     </NftListItem>
   ));
 
