@@ -9,6 +9,7 @@ import Tab from "./styled/Tab.styled";
 import Tabs from "./styled/Tabs.styled";
 import Head from "next/head";
 import EditionSelector from "./Asset/EditionSelector";
+import WarrantyTime from "./Asset/WarrantyTime";
 import OwnershipItem from "./Asset/OwnershipItem";
 import BidSticky from "./Asset/BidSticky";
 import { useRouter } from "next/router";
@@ -219,6 +220,7 @@ export default function Asset() {
             <Tag>Crypto</Tag>
           </TagContainer>
           <EditionSelector />
+          <WarrantyTime fromtime = {12334321} totime = {123241434522}/>
           <Tabs mt="1rem" data={AllTabs} />
         </RightSection>
       </SectionContainer>

@@ -1,10 +1,7 @@
 import Head from "next/head";
 import styled from "styled-components";
 import { Colors, Devices } from "./Theme";
-import { BsGithub, BsGlobe } from "react-icons/bs";
-import Link from "next/link";
 import Hero from "./Home/Hero";
-import NewsLetter from "./Home/NewsLetter";
 import Carousel from "./Home/Carousel";
 import TopCollectibles from "./Home/TopCollectibles";
 import ModalComponent from "./styled/Modal.styled";
@@ -31,7 +28,7 @@ export default function Home() {
           name="Description"
           content="Multichain Ecommerce for NFT"
         />
-        <link rel="icon" href="/public/images/logi1.png"/>
+        <link rel="icon" href="/images/logi1.png"/>
       </Head>
       <Hero/>
       <Carousel />

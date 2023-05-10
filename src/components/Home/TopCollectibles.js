@@ -571,7 +571,7 @@ export default function TopCollectibles(params) {
       <Title>Available Product NFTs</Title>
       <TopSection>
         <Sort></Sort>
-        <Date>Today</Date>
+        <Date>Recent</Date>
       </TopSection>
       <Grid>
         {allNfts.map((nft, index) => {
